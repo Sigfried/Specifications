@@ -1,16 +1,16 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "version": "0.0.1",
     "title": "OHDSI Concept Sets",
     "description": "Concept Sets are collections of concept based logic rules that help define sets of terminology to be used in research activities.",
-    "license": {
-      "name": "Apache 2.0"
-    },
     "contact": {
       "name": "Frank DeFalco",
       "email": "fdefalco@ohdsi.org"
-    }
+    },
+    "license": {
+      "name": "Apache 2.0"
+    },
+    "version": "0.0.1"
   },
   "paths": {
     "/conceptset": {
@@ -24,21 +24,21 @@
       },
       "post": {
         "summary": "Save a new Concept Set",
+        "responses": {
+          "200": {
+            "description": "A Concept Set with new identifier and version information."
+          }
+        },
         "requestBody": {
           "description": "A Concept Set",
-          "required": true,
           "content": {
             "application:json": {
               "schema": {
                 "$ref": "#/components/schemas/ConceptSet"
               }
             }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "A Concept Set with new identifier and version information."
-          }
+          },
+          "required": true
         }
       }
     },
@@ -47,13 +47,13 @@
         "summary": "Retrieve the latest version of an individual Concept Set",
         "parameters": [
           {
-            "in": "path",
             "name": "id",
+            "in": "path",
             "description": "The identifier of the requested Concept Set",
+            "required": true,
             "schema": {
               "type": "string"
-            },
-            "required": true
+            }
           }
         ],
         "responses": {
@@ -71,21 +71,21 @@
       },
       "post": {
         "summary": "Save a new version of an existing Concept Set",
+        "responses": {
+          "200": {
+            "description": "A Concept Set with new version information."
+          }
+        },
         "requestBody": {
           "description": "A Concept Set",
-          "required": true,
           "content": {
             "application:json": {
               "schema": {
                 "$ref": "#/components/schemas/ConceptSet"
               }
             }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "A Concept Set with new version information."
-          }
+          },
+          "required": true
         }
       }
     },
@@ -94,22 +94,22 @@
         "summary": "Retrieve a specific version of an individual Concept Set",
         "parameters": [
           {
-            "in": "path",
             "name": "id",
+            "in": "path",
             "description": "The identifier of the requested Concept Set",
+            "required": true,
             "schema": {
               "type": "string"
-            },
-            "required": true
+            }
           },
           {
-            "in": "path",
             "name": "version",
+            "in": "path",
             "description": "The specific version number",
+            "required": true,
             "schema": {
               "type": "integer"
-            },
-            "required": true
+            }
           }
         ],
         "responses": {
@@ -125,7 +125,8 @@
           }
         }
       }
-    }
+    },
+    "/cset/{id}/": {}
   },
   "components": {
     "schemas": {
@@ -151,8 +152,8 @@
             "type": "integer"
           },
           "conceptLogics": {
-            "type": "array",
-            "$ref": "#/components/schemas/ConceptLogic"
+            "$ref": "#/components/schemas/ConceptLogic",
+            "type": "array"
           },
           "metadata": {
             "$ref": "#/components/schemas/MetaData"
@@ -160,6 +161,12 @@
         }
       },
       "ConceptLogic": {
+        "required": [
+          "conceptId",
+          "includeDescendants",
+          "includeMapped",
+          "isExcluded"
+        ],
         "properties": {
           "conceptId": {
             "type": "integer"
@@ -173,19 +180,13 @@
           "isExcluded": {
             "type": "boolean"
           }
-        },
-        "required": [
-          "conceptId",
-          "includeDescendants",
-          "includeMapped",
-          "isExcluded"
-        ]
+        }
       },
       "MetaData": {
         "properties": {
           "authors": {
-            "type": "array",
-            "$ref": "#/components/schemas/Author"
+            "$ref": "#/components/schemas/Author",
+            "type": "array"
           }
         }
       },
@@ -199,6 +200,56 @@
           },
           "publicKey": {
             "type": "string"
+          }
+        }
+      },
+      "cset": {
+        "title": "Root Type for cset",
+        "description": "The root of the cset type's schema.",
+        "type": "object",
+        "properties": {
+          "_meta": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "object"
+              },
+              "id": {
+                "format": "int32",
+                "type": "integer"
+              }
+            }
+          },
+          "_query": {
+            "type": "object",
+            "properties": {
+              "selectMethodName": {
+                "type": "string"
+              },
+              "includeDescendants": {
+                "type": "boolean"
+              },
+              "includeMapped": {
+                "type": "boolean"
+              },
+              "isExcluded": {
+                "type": "boolean"
+              },
+              "matchStr": {
+                "type": "string"
+              },
+              "vocabulary_id": {
+                "type": "string"
+              }
+            }
+          },
+          "_derived": {
+            "type": "object",
+            "properties": {
+              "fetchCidsUrl": {
+                "type": "string"
+              }
+            }
           }
         }
       }
