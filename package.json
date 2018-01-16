@@ -1,0 +1,8 @@
+{
+  "name": "Specifications",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "https://github.com/Sigfried/Specifications.git",
+  "author": "Sigfried Gold <sigfried@sigfried.org>",
+  "license": "MIT"
+}
