@@ -4,8 +4,8 @@
     "title": "OHDSI Concept Sets",
     "description": "Concept Sets are collections of concept based logic rules that help define sets of terminology to be used in research activities.",
     "contact": {
-      "name": "Frank DeFalco",
-      "email": "fdefalco@ohdsi.org"
+      "name": "Sigfried Gold",
+      "email": "sigfried@sigfried.org"
     },
     "license": {
       "name": "Apache 2.0"
@@ -292,7 +292,26 @@
           }
         }
       },
-      "VocabCode": {}
+      "VocabCode": {
+        "title": "A single vocabulary code",
+        "description": "A single code from a single vocabulary reprensented in the OHDSI vocabulary system",
+        "type": "object",
+        "properties": {
+          "id": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "vocabulary_id": {
+            "type": "string"
+          },
+          "vocabulary_version": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        }
+      }
     }
   }
 }
